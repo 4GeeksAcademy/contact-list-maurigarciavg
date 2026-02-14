@@ -1,0 +1,26 @@
+
+.contactCard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #313537;
+    border: 1px solid #454a4d;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px auto;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00d1b2;
+    margin-bottom: 8px;
+}
+
+.address, .phone, .email {
+    font-size: 1rem;
+    color: #bdc3c7;
+    margin-bottom: 4px;
+}
