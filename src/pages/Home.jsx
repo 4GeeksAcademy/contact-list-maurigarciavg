@@ -20,7 +20,7 @@ export const Home = () => {
 	return (
 		<div className="container">
 			<div>
-				<Link to="/AddNewContact">Add new contact</Link>
+				<Link to="/add">Add new contact</Link>
 			</div>
 			{
 				store.contacts.map((contact) => (
@@ -32,7 +32,7 @@ export const Home = () => {
 							<div className="phone">{contact.phone}</div>
 							<div className="email">{contact.email}</div>
 							<button className="deleteContact" onClick={() => deleteContact(contact.id)}>Delete</button>
-						<button className="editContact" onClick={navigate("/AddNewContact")}>Edit</button>
+							<button className="editContact" onClick={() => navigate(`/edit/${contact.id}`)}>Edit</button>
 						</div>
 					</div>
 				))
