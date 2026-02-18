@@ -1,0 +1,45 @@
+/* Contenedor del formulario centrado */
+.form-wrapper {
+    max-width: 600px;
+    margin: 0 auto; 
+    background-color: #313537;
+    padding: 40px;
+    border-radius: 10px;
+    border: 1px solid #454a4d;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.form-label {
+    color: #bdc3c7;
+    font-weight: 500;
+}
+
+.dark-input {
+    background-color: #212529 !important;
+    border: 1px solid #454a4d !important;
+    color: #fff !important;
+}
+
+.dark-input:focus {
+    background-color: #212529 !important;
+    border-color: #00d1b2 !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 209, 178, 0.25) !important;
+}
+
+.dark-input::placeholder {
+    color: #6c757d;
+}
+
+h1.text-success {
+    color: #00d1b2 !important;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
