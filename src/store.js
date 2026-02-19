@@ -126,7 +126,19 @@ export default function storeReducer(store, action = {}) {
           item.id == action.payload.id ? action.payload : item
         )
       };
-       default:
+    case 'MODIFY_CONTACT':
+      return {
+        ...store,
+        contacts: store.contacts.map((item) =>
+          item.id == action.payload.id ? action.payload : item
+        )
+      };
+    /* case 'SET_CONTACTS':
+      return {
+        ...store,
+        contacts: action.payload
+      }; */
+    default:
       return store;
   };
 };

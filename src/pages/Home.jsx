@@ -3,6 +3,7 @@ import './home.css'
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaPencilAlt, FaTrash } from "react-icons/fa";
+import React, { useEffect } from "react";
 
 export const Home = () => {
 
@@ -25,7 +26,6 @@ export const Home = () => {
             console.log("Error al crear el usuario:", error)
         }
     };
-    
     const syncAgenda = async () => {
     try {
         const response = await fetch(`https://playground.4geeks.com/contact/agendas/${myAgenda}`);
@@ -58,6 +58,20 @@ const getContacts = async () => {
         console.error("Error al traer los contactos:", error);
     };
 };
+
+useEffect(() => {
+    const initialize = async () => {
+        await syncAgenda();
+        const data = await getContacts();
+        if (data && data.contacts) {
+            dispatch({ 
+                type: 'SET_CONTACTS', 
+                payload: data.contacts 
+            });
+        }
+    };
+    initialize();
+}, []);
 
     const deleteContact = (id) => {
         dispatch({
