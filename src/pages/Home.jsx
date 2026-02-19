@@ -8,8 +8,57 @@ export const Home = () => {
 
     const { store, dispatch } = useGlobalReducer()
     const navigate = useNavigate();
+    const myAgenda = "mauri-agenda";
+    const createUser = async () => {
+        try {
+            const response = await fetch(`https://playground.4geeks.com/contact/agendas/${myAgenda}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            if (response.ok) {
+                const data = await response.json();
+                return data
+            }
+        } catch (error) {
+            console.log("Error al crear el usuario:", error)
+        }
+    };
     
-    // Aquí más adelante pondremos la lógica de la API
+    const syncAgenda = async () => {
+    try {
+        const response = await fetch(`https://playground.4geeks.com/contact/agendas/${myAgenda}`);
+
+        if (response.status === 404) {
+            console.log("La agenda no existe. Iniciando creación...");
+            const newAgenda = await createUser(); 
+            return newAgenda;
+        }
+
+        if (response.ok) {
+            console.log("Agenda encontrada. Cargando datos...");
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.error("Error al sincronizar la agenda:", error);
+    }
+};
+syncAgenda()
+
+const getContacts = async () => {
+    try {
+        const response = await fetch(`https://playground.4geeks.com/contact/agendas/${myAgenda}/contacts`);
+            if (response.ok) {
+            const bringContacts = await response.json();
+            return bringContacts;
+        };
+    } catch (error) {
+        console.error("Error al traer los contactos:", error);
+    };
+};
+
     const deleteContact = (id) => {
         dispatch({
             type: 'DELETE_CONTACT',
@@ -22,28 +71,28 @@ export const Home = () => {
             <div className="d-flex justify-content-end mb-3">
                 <Link to="/add" className="btn btn-success">Add new contact</Link>
             </div>
-            
+
             <div className="contacts-wrapper">
                 {store.contacts.map((contact) => (
                     <div key={contact.id} className="contactCard">
                         <div className="d-flex align-items-center">
-                            <img 
-                                src={`https://picsum.photos/seed/${contact.id}/150/150`} 
-                                alt="avatar" 
-                                className="contact-img" 
+                            <img
+                                src={`https://picsum.photos/seed/${contact.id}/150/150`}
+                                alt="avatar"
+                                className="contact-img"
                             />
                             <div className="contact-info">
                                 <div className="name">{contact.full_name}</div>
                                 <div className="data-row">
-                                    <FaMapMarkerAlt className="icon" /> 
+                                    <FaMapMarkerAlt className="icon" />
                                     <span className="address">{contact.address}</span>
                                 </div>
                                 <div className="data-row">
-                                    <FaPhone className="icon" /> 
+                                    <FaPhone className="icon" />
                                     <span className="phone">{contact.phone}</span>
                                 </div>
                                 <div className="data-row">
-                                    <FaEnvelope className="icon" /> 
+                                    <FaEnvelope className="icon" />
                                     <span className="email">{contact.email}</span>
                                 </div>
                             </div>
