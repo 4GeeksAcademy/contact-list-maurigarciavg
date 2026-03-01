@@ -119,7 +119,7 @@ export const AddNewContact = () => {
         </div>
 
         <div className="d-grid gap-2">
-          <button className="btn btn-primary btn-lg" onClick={handleSave}>save</button>
+          <button className="btn btn-primary btn-lg" onClick={handleSave}>Save changes</button>
         </div>
 
         <div className="mt-3 text-center">
