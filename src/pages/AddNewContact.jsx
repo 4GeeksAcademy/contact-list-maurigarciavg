@@ -2,56 +2,69 @@ import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
-import './addNewContact.css'; 
+import './addNewContact.css';
 
 export const AddNewContact = () => {
-  const { store, dispatch } = useGlobalReducer()
+  const { store, dispatch } = useGlobalReducer();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
   const params = useParams();
+
+
   const contactToEdit = store.contacts.find((contact) => contact.id == params.id);
 
   useEffect(() => {
     if (contactToEdit) {
-      setFullName(contactToEdit.full_name);
+      setFullName(contactToEdit.name);
       setEmail(contactToEdit.email);
       setPhone(contactToEdit.phone);
       setAddress(contactToEdit.address);
     }
   }, [contactToEdit]);
 
-  const handleSave = () => {
-    const nextId = store.contacts.length > 0
-      ? Math.max(...store.contacts.map(c => c.id)) + 1
-      : 1;
+  const handleSave = async () => {
+    const myAgenda = "mauri-agenda";
 
-    if (params.id) {
-      dispatch({
-        type: 'MODIFY_CONTACT',
-        payload: {
-          id: parseInt(params.id),
-          full_name: fullName,
-          email: email,
-          phone: phone,
-          address: address
+    const contactData = {
+      name: fullName,
+      email: email,
+      phone: phone,
+      address: address
+    };
+
+    try {
+      if (params.id) {
+        const response = await fetch(`https://playground.4geeks.com/contact/agendas/${myAgenda}/contacts/${params.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(contactData)
+        });
+
+        if (response.ok) {
+          const updatedContact = await response.json();
+          dispatch({ type: 'MODIFY_CONTACT', payload: updatedContact });
         }
-      });
-    } else {
-      dispatch({
-        type: 'ADD_CONTACT',
-        payload: {
-          id: nextId,
-          full_name: fullName,
-          email: email,
-          phone: phone,
-          address: address
+      } else {
+        console.log("Enviando petición POST...");
+        const response = await fetch(`https://playground.4geeks.com/contact/agendas/${myAgenda}/contacts`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(contactData)
+        });
+        console.log("Respuesta recibida:", response.status);
+
+        if (response.ok) {
+          const newContact = await response.json();
+          dispatch({ type: 'ADD_CONTACT', payload: newContact });
         }
-      });
+      }
+      navigate("/");
+    } catch (error) {
+      console.error("Error al guardar:", error);
     }
-    navigate("/");
   };
 
   return (
@@ -60,48 +73,48 @@ export const AddNewContact = () => {
         <h1 className="text-center mb-4 text-success">
           {params.id ? "Edit Contact" : "Add a New Contact"}
         </h1>
-        
+
         <div className="mb-3">
           <label className="form-label">Full Name</label>
-          <input 
-            type="text" 
-            className="form-control dark-input" 
-            placeholder="Enter Full Name" 
-            value={fullName} 
-            onChange={(e) => setFullName(e.target.value)} 
+          <input
+            type="text"
+            className="form-control dark-input"
+            placeholder="Enter Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
           />
         </div>
 
         <div className="mb-3">
           <label className="form-label">Email</label>
-          <input 
-            type="email" 
-            className="form-control dark-input" 
-            placeholder="Enter Email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+          <input
+            type="email"
+            className="form-control dark-input"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <div className="mb-3">
           <label className="form-label">Phone</label>
-          <input 
-            type="text" 
-            className="form-control dark-input" 
-            placeholder="Enter Phone" 
-            value={phone} 
-            onChange={(e) => setPhone(e.target.value)} 
+          <input
+            type="text"
+            className="form-control dark-input"
+            placeholder="Enter Phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </div>
 
         <div className="mb-4">
           <label className="form-label">Address</label>
-          <input 
-            type="text" 
-            className="form-control dark-input" 
-            placeholder="Enter Address" 
-            value={address} 
-            onChange={(e) => setAddress(e.target.value)} 
+          <input
+            type="text"
+            className="form-control dark-input"
+            placeholder="Enter Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
         </div>
 
