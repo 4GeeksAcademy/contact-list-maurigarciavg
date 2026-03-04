@@ -13,7 +13,6 @@ export const AddNewContact = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-
   const contactToEdit = store.contacts.find((contact) => contact.id == params.id);
 
   useEffect(() => {
@@ -25,9 +24,10 @@ export const AddNewContact = () => {
     }
   }, [contactToEdit]);
 
-  const handleSave = async () => {
-    const myAgenda = "mauri-agenda";
+  const handleSave = async (e) => {
+    e.preventDefault();
 
+    const myAgenda = "mauri-agenda";
     const contactData = {
       name: fullName,
       email: email,
@@ -46,22 +46,21 @@ export const AddNewContact = () => {
         if (response.ok) {
           const updatedContact = await response.json();
           dispatch({ type: 'MODIFY_CONTACT', payload: updatedContact });
+          navigate("/");
         }
       } else {
-        console.log("Enviando petición POST...");
         const response = await fetch(`https://playground.4geeks.com/contact/agendas/${myAgenda}/contacts`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(contactData)
         });
-        console.log("Respuesta recibida:", response.status);
 
         if (response.ok) {
           const newContact = await response.json();
           dispatch({ type: 'ADD_CONTACT', payload: newContact });
+          navigate("/");
         }
       }
-      navigate("/");
     } catch (error) {
       console.error("Error al guardar:", error);
     }
@@ -74,53 +73,63 @@ export const AddNewContact = () => {
           {params.id ? "Edit Contact" : "Add a New Contact"}
         </h1>
 
-        <div className="mb-3">
-          <label className="form-label">Full Name</label>
-          <input
-            type="text"
-            className="form-control dark-input"
-            placeholder="Enter Full Name"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </div>
+        <form onSubmit={handleSave}>
 
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control dark-input"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Full Name</label>
+            <input
+              type="text"
+              className="form-control dark-input"
+              placeholder="Enter Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">Phone</label>
-          <input
-            type="text"
-            className="form-control dark-input"
-            placeholder="Enter Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-control dark-input"
+              placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="mb-4">
-          <label className="form-label">Address</label>
-          <input
-            type="text"
-            className="form-control dark-input"
-            placeholder="Enter Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Phone</label>
+            <input
+              type="tel"
+              className="form-control dark-input"
+              placeholder="Enter Phone (e.g. 600123456)"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              pattern="[0-9]{9,15}"
+            />
+          </div>
 
-        <div className="d-grid gap-2">
-          <button className="btn btn-primary btn-lg" onClick={handleSave}>Save changes</button>
-        </div>
+          <div className="mb-4">
+            <label className="form-label">Address</label>
+            <input
+              type="text"
+              className="form-control dark-input"
+              placeholder="Enter Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="d-grid gap-2">
+            <button type="submit" className="btn btn-primary btn-lg">
+              Save changes
+            </button>
+          </div>
+        </form>
 
         <div className="mt-3 text-center">
           <Link to="/" className="text-secondary text-decoration-none">or get back to contacts</Link>
