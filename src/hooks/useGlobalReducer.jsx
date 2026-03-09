@@ -1,24 +1,29 @@
-import { useContext, useReducer, createContext, useMemo } from "react";
-import storeReducer, { initialStore, actions } from "../store"; // 👈 Importamos las actions
+import PropTypes from "prop-types";
+import { useContext, useReducer, createContext } from "react";
+import storeReducer, { initialStore } from "../store";
 
 const StoreContext = createContext();
 
 export function StoreProvider({ children }) {
-    const [store, dispatch] = useReducer(storeReducer, initialStore());
+	const [store, dispatch] = useReducer(storeReducer, initialStore());
 
-    const boundActions = useMemo(() => actions(store, dispatch), [store, dispatch]);
-
-    return (
-        <StoreContext.Provider value={{ store, dispatch, actions: boundActions }}>
-            {children}
-        </StoreContext.Provider>
-    );
+	return (
+		<StoreContext.Provider value={{ store, dispatch }}>
+			{children}
+		</StoreContext.Provider>
+	);
 }
 
+StoreProvider.propTypes = {
+	children: PropTypes.node.isRequired
+};
+
 export default function useGlobalReducer() {
-    const context = useContext(StoreContext);
-    if (!context) {
-        throw new Error("useGlobalReducer debe usarse dentro de un StoreProvider");
-    }
-    return context;
+	const context = useContext(StoreContext);
+
+	if (!context) {
+		throw new Error("useGlobalReducer must be used inside StoreProvider");
+	}
+
+	return context;
 }
