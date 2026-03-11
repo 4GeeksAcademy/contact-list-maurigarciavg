@@ -12,7 +12,7 @@ export const actions = (store, dispatch) => {
         checkOrCreateAgenda: async () => {
             try {
                 let response = await fetch(baseUrl);
-              
+                
                 if (response.status === 404) {
                     const createResp = await fetch(baseUrl, {
                         method: "POST",
