@@ -11,7 +11,7 @@ export const Home = () => {
 
     useEffect(() => {
         actions.checkOrCreateAgenda();
-    }, []);
+    }, []); // ✅ Bien hecho: useEffect correctamente implementado
 
     const deleteContact = async (id) => {
         try {
@@ -19,10 +19,10 @@ export const Home = () => {
                 method: "DELETE"
             });
             if (response.ok) {
-                actions.checkOrCreateAgenda();
+                actions.checkOrCreateAgenda(); // ✅ Bien hecho: recarga de agenda después de eliminar
             }
         } catch (error) {
-            console.error("Error al borrar:", error);
+            console.error("Error al borrar:", error); // ✅ Buen manejo de errores
         }
     };
 
@@ -53,4 +53,3 @@ export const Home = () => {
         </div>
     );
 };
-

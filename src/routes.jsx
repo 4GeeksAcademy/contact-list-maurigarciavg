@@ -10,7 +10,7 @@ import { AddNewContact } from "./pages/AddNewContact";
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
-      <Route path="/" element={<Home />} />
+      <Route index element={<Home />} /> // 📝 Usar 'index' para la ruta raíz
       <Route path="/add" element={<AddNewContact />} />
       <Route path="/edit/:id" element={<AddNewContact />} />
     </Route>
