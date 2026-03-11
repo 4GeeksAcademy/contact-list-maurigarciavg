@@ -10,7 +10,7 @@ export const Home = () => {
     const myAgenda = "mauri-agenda";
 
     useEffect(() => {
-        actions.checkOrCreateAgenda();
+        actions.checkOrCreateAgenda(); // ✅ Llamada a la acción para verificar o crear la agenda
     }, []);
 
     const deleteContact = async (id) => {
@@ -19,17 +19,17 @@ export const Home = () => {
                 method: "DELETE"
             });
             if (response.ok) {
-                actions.checkOrCreateAgenda();
+                actions.checkOrCreateAgenda(); // ✅ Actualiza la agenda después de eliminar el contacto
             }
         } catch (error) {
-            console.error("Error al borrar:", error);
+            console.error("Error al borrar:", error); // 💡 Tip: Considera manejar el error de forma más amigable para el usuario
         }
     };
 
     return (
         <div className="container mt-4">
             <div className="d-flex justify-content-end mb-3">
-                <Link to="/add" className="btn btn-success">Add new contact</Link>
+                <Link to="/add" className="btn btn-success">Add new contact</Link> // ✅ Buen uso de Link para navegación
             </div>
             <div className="contacts-wrapper">
                 {store.contacts.map((contact) => (
@@ -53,4 +53,3 @@ export const Home = () => {
         </div>
     );
 };
-
