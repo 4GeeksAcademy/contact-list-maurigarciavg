@@ -12,7 +12,7 @@ export const actions = (store, dispatch) => {
         checkOrCreateAgenda: async () => {
             try {
                 let response = await fetch(baseUrl);
-              
+                
                 if (response.status === 404) {
                     const createResp = await fetch(baseUrl, {
                         method: "POST",
@@ -54,3 +54,6 @@ export default function storeReducer(store, action = {}) {
             return store;
     }
 }
+// 📝 Asegúrate de que el reducer maneje correctamente los casos de acción.
+// ✅ Buen uso de async/await para manejar promesas.
+// 💡 Considera agregar validaciones para los datos de entrada en las acciones.

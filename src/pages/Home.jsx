@@ -11,7 +11,7 @@ export const Home = () => {
 
     useEffect(() => {
         actions.checkOrCreateAgenda();
-    }, []);
+    }, []); // ✅ Se ejecuta solo una vez al montar el componente
 
     const deleteContact = async (id) => {
         try {
@@ -19,10 +19,10 @@ export const Home = () => {
                 method: "DELETE"
             });
             if (response.ok) {
-                actions.checkOrCreateAgenda();
+                actions.checkOrCreateAgenda(); // ✅ Refresca la lista de contactos después de eliminar
             }
         } catch (error) {
-            console.error("Error al borrar:", error);
+            console.error("Error al borrar:", error); // ✅ Manejo de errores adecuado
         }
     };
 
@@ -53,4 +53,5 @@ export const Home = () => {
         </div>
     );
 };
-
+// 📝 Asegúrate de que el componente maneje correctamente los estados de carga y error en el futuro.
+// 💡 Considera agregar un estado de carga para mejorar la experiencia del usuario.
