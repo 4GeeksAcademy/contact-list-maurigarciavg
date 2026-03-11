@@ -13,7 +13,7 @@ export const AddNewContact = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const contactToEdit = store.contacts.find((contact) => contact.id == params.id);
+  const contactToEdit = store.contacts.find((contact) => contact.id == params.id); // 💡 Usar '===' para comparación estricta
 
   useEffect(() => {
     if (contactToEdit) {
@@ -62,7 +62,7 @@ export const AddNewContact = () => {
         }
       }
     } catch (error) {
-      console.error("Error al guardar:", error);
+      console.error("Error al guardar:", error); // 💡 Considera mostrar un mensaje al usuario
     }
   };
 

@@ -9,10 +9,10 @@ import { AddNewContact } from "./pages/AddNewContact";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
-      <Route path="/" element={<Home />} />
-      <Route path="/add" element={<AddNewContact />} />
-      <Route path="/edit/:id" element={<AddNewContact />} />
+    <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} > // ✅ Buen manejo de errores al no encontrar la ruta
+      <Route path="/" element={<Home />} /> // ✅ Ruta principal para la página de inicio
+      <Route path="/add" element={<AddNewContact />} /> // ✅ Ruta para agregar un nuevo contacto
+      <Route path="/edit/:id" element={<AddNewContact />} /> // 💡 Considera crear un componente diferente para editar
     </Route>
   )
 );

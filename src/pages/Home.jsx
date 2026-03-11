@@ -10,7 +10,7 @@ export const Home = () => {
     const myAgenda = "mauri-agenda";
 
     useEffect(() => {
-        actions.checkOrCreateAgenda();
+        actions.checkOrCreateAgenda(); // ✅ Buena práctica: usas useEffect para inicializar
     }, []);
 
     const deleteContact = async (id) => {
@@ -19,10 +19,10 @@ export const Home = () => {
                 method: "DELETE"
             });
             if (response.ok) {
-                actions.checkOrCreateAgenda();
+                actions.checkOrCreateAgenda(); // ✅ Refrescas la lista después de eliminar
             }
         } catch (error) {
-            console.error("Error al borrar:", error);
+            console.error("Error al borrar:", error); // 💡 Considera mostrar un mensaje al usuario
         }
     };
 
@@ -53,4 +53,3 @@ export const Home = () => {
         </div>
     );
 };
-
