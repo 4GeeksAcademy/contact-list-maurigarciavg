@@ -5,14 +5,14 @@ export const initialStore = () => {
 };
 
 export const actions = (store, dispatch) => {
-    const myAgenda = "mauri-agenda";
+    const myAgenda = "mauri-agenda"; // ✅ Buen uso de constantes para la agenda
     const baseUrl = `https://playground.4geeks.com/contact/agendas/${myAgenda}`;
 
     return {
         checkOrCreateAgenda: async () => {
             try {
                 let response = await fetch(baseUrl);
-              
+                
                 if (response.status === 404) {
                     const createResp = await fetch(baseUrl, {
                         method: "POST",
@@ -27,11 +27,11 @@ export const actions = (store, dispatch) => {
                     const data = await response.json();
                     dispatch({
                         type: 'SET_CONTACTS',
-                        payload: data.contacts || []
+                        payload: data.contacts || [] // 📝 Asegúrate de que 'contacts' esté definido
                     });
                 }
             } catch (error) {
-                console.error("Error en la gestión de la agenda:", error);
+                console.error("Error en la gestión de la agenda:", error); // 💡 Recuerda manejar errores de forma más amigable
             }
         }
     };
@@ -48,7 +48,7 @@ export default function storeReducer(store, action = {}) {
         case 'MODIFY_CONTACT':
             return {
                 ...store,
-                contacts: store.contacts.map(item => item.id == action.payload.id ? action.payload : item)
+                contacts: store.contacts.map(item => item.id == action.payload.id ? action.payload : item) // 📝 Considera usar '===' para comparaciones estrictas
             };
         default:
             return store;

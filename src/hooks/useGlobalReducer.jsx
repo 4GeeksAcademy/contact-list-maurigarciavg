@@ -4,9 +4,9 @@ import storeReducer, { initialStore, actions } from "../store"; // 👈 Importam
 const StoreContext = createContext();
 
 export function StoreProvider({ children }) {
-    const [store, dispatch] = useReducer(storeReducer, initialStore());
+    const [store, dispatch] = useReducer(storeReducer, initialStore()); // ✅ Usando useReducer correctamente
 
-    const boundActions = useMemo(() => actions(store, dispatch), [store, dispatch]);
+    const boundActions = useMemo(() => actions(store, dispatch), [store, dispatch]); // 📝 Memoriza las acciones para optimizar rendimiento
 
     return (
         <StoreContext.Provider value={{ store, dispatch, actions: boundActions }}>
@@ -16,9 +16,9 @@ export function StoreProvider({ children }) {
 }
 
 export default function useGlobalReducer() {
-    const context = useContext(StoreContext);
+    const context = useContext(StoreContext); // ✅ Usando useContext correctamente
     if (!context) {
-        throw new Error("useGlobalReducer debe usarse dentro de un StoreProvider");
+        throw new Error("useGlobalReducer debe usarse dentro de un StoreProvider"); // 📝 Mensaje claro de error
     }
     return context;
 }
