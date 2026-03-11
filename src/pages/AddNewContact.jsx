@@ -1,39 +1,39 @@
-import { Link } from "react-router-dom";
-import useGlobalReducer from "../hooks/useGlobalReducer";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
-import './addNewContact.css';
+import { Link } from "react-router-dom"; // ✅ Importas correctamente Link para la navegación
+import useGlobalReducer from "../hooks/useGlobalReducer"; // ✅ Importas el hook global de estado
+import { useState, useEffect } from "react"; // ✅ Importas hooks de React
+import { useNavigate, useParams } from 'react-router-dom'; // ✅ Importas hooks para navegación y parámetros
+import './addNewContact.css'; // ✅ Importas estilos
 
 export const AddNewContact = () => {
-  const { store, dispatch } = useGlobalReducer();
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const navigate = useNavigate();
-  const params = useParams();
+  const { store, dispatch } = useGlobalReducer(); // ✅ Usas el hook para acceder al estado global
+  const [fullName, setFullName] = useState(""); // ✅ Inicializas el estado
+  const [email, setEmail] = useState(""); // ✅ Inicializas el estado
+  const [phone, setPhone] = useState(""); // ✅ Inicializas el estado
+  const [address, setAddress] = useState(""); // ✅ Inicializas el estado
+  const navigate = useNavigate(); // ✅ Hook para navegar
+  const params = useParams(); // ✅ Hook para obtener parámetros de la URL
 
-  const contactToEdit = store.contacts.find((contact) => contact.id == params.id);
+  const contactToEdit = store.contacts.find((contact) => contact.id == params.id); // 💡 Considera usar '===' para comparación estricta
 
   useEffect(() => {
     if (contactToEdit) {
-      setFullName(contactToEdit.name);
-      setEmail(contactToEdit.email);
-      setPhone(contactToEdit.phone);
-      setAddress(contactToEdit.address);
+      setFullName(contactToEdit.name); // ✅ Asignas valores al editar
+      setEmail(contactToEdit.email); // ✅ Asignas valores al editar
+      setPhone(contactToEdit.phone); // ✅ Asignas valores al editar
+      setAddress(contactToEdit.address); // ✅ Asignas valores al editar
     }
-  }, [contactToEdit]);
+  }, [contactToEdit]); // ✅ Dependencia correcta para el efecto
 
   const handleSave = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // ✅ Previene el comportamiento por defecto del formulario
 
-    const myAgenda = "mauri-agenda";
+    const myAgenda = "mauri-agenda"; // ✅ Definición clara de la agenda
     const contactData = {
       name: fullName,
       email: email,
       phone: phone,
       address: address
-    };
+    }; // ✅ Creas un objeto con los datos del contacto
 
     try {
       if (params.id) {
@@ -41,28 +41,28 @@ export const AddNewContact = () => {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(contactData)
-        });
+        }); // ✅ Realizas la petición para editar
 
         if (response.ok) {
-          const updatedContact = await response.json();
-          dispatch({ type: 'MODIFY_CONTACT', payload: updatedContact });
-          navigate("/");
+          const updatedContact = await response.json(); // ✅ Obtienes el contacto actualizado
+          dispatch({ type: 'MODIFY_CONTACT', payload: updatedContact }); // ✅ Actualizas el estado global
+          navigate("/"); // ✅ Navegas de vuelta a la lista
         }
       } else {
         const response = await fetch(`https://playground.4geeks.com/contact/agendas/${myAgenda}/contacts`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(contactData)
-        });
+        }); // ✅ Realizas la petición para crear
 
         if (response.ok) {
-          const newContact = await response.json();
-          dispatch({ type: 'ADD_CONTACT', payload: newContact });
-          navigate("/");
+          const newContact = await response.json(); // ✅ Obtienes el nuevo contacto
+          dispatch({ type: 'ADD_CONTACT', payload: newContact }); // ✅ Actualizas el estado global
+          navigate("/"); // ✅ Navegas de vuelta a la lista
         }
       }
     } catch (error) {
-      console.error("Error al guardar:", error);
+      console.error("Error al guardar:", error); // 💡 Considera mostrar un mensaje al usuario en lugar de solo en consola
     }
   };
 

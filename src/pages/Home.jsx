@@ -5,12 +5,12 @@ import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaPencilAlt, FaTrash } from "react
 import './home.css';
 
 export const Home = () => {
-    const { store, actions } = useGlobalReducer();
+    const { store, actions } = useGlobalReducer(); // ✅ Buen uso del hook para manejar el estado global
     const navigate = useNavigate();
     const myAgenda = "mauri-agenda";
 
     useEffect(() => {
-        actions.checkOrCreateAgenda();
+        actions.checkOrCreateAgenda(); // ✅ Llamada a la acción para verificar o crear la agenda
     }, []);
 
     const deleteContact = async (id) => {
@@ -19,10 +19,10 @@ export const Home = () => {
                 method: "DELETE"
             });
             if (response.ok) {
-                actions.checkOrCreateAgenda();
+                actions.checkOrCreateAgenda(); // ✅ Actualiza la agenda después de eliminar
             }
         } catch (error) {
-            console.error("Error al borrar:", error);
+            console.error("Error al borrar:", error); // 💡 Tip: Considera mostrar un mensaje al usuario en lugar de solo en consola
         }
     };
 
@@ -53,4 +53,3 @@ export const Home = () => {
         </div>
     );
 };
-

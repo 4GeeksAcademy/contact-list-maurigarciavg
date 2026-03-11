@@ -15,4 +15,4 @@ export const router = createBrowserRouter(
       <Route path="/edit/:id" element={<AddNewContact />} />
     </Route>
   )
-);
+); // 📝 Este es el enrutador principal de la aplicación

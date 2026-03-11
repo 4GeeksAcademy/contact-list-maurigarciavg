@@ -5,14 +5,14 @@ export const initialStore = () => {
 };
 
 export const actions = (store, dispatch) => {
-    const myAgenda = "mauri-agenda";
+    const myAgenda = "mauri-agenda"; // ✅ Buen uso de una variable para la agenda
     const baseUrl = `https://playground.4geeks.com/contact/agendas/${myAgenda}`;
 
     return {
         checkOrCreateAgenda: async () => {
             try {
                 let response = await fetch(baseUrl);
-              
+                
                 if (response.status === 404) {
                     const createResp = await fetch(baseUrl, {
                         method: "POST",
@@ -31,7 +31,7 @@ export const actions = (store, dispatch) => {
                     });
                 }
             } catch (error) {
-                console.error("Error en la gestión de la agenda:", error);
+                console.error("Error en la gestión de la agenda:", error); // 💡 Tip: Considera manejar el error de manera más amigable para el usuario
             }
         }
     };
